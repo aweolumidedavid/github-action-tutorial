@@ -1,0 +1,28 @@
+service: rule-validation
+provider:
+  name: aws
+  runtime: nodejs12.x
+  versionFunctions: false
+  profile: admintest
+  description: this function is the lambda function for the rule-validation API
+  stage: dev
+  region: eu-west-2
+  memorySize: 512
+  timeout: 120 #2 minutes time out
+  stackName: rule-validation
+  apiName: rule-validation
+  deploymentBucket:
+    name: tenantpropertypictures
+  deploymentPrefix: prod
+functions:
+  rule-validation:
+    handler: lambda.handler
+    name: rule-validation
+    # optimize:
+    #   minify : false
+    events: 
+      - http:
+          path: /api/{proxy+}
+          method: any
+          cors: true
+          private: false
